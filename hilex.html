@@ -48,7 +48,7 @@
 </head>
 
 <script>
-  failsafe = Math.round(Math.random()*(99999-10)+10);
+  //failsafe = Math.round(Math.random()*(99999-10)+10);
   //https://jsbin.com/wivanojuqo/edit?html,console,output
   //https://www.toptal.com/developers/keycode/for/z
   $(window).keydown(function(event) {
@@ -83,6 +83,7 @@
   const emailIDexpt_sess = SessionData.emailExpt
   const nameExpt_sess = SessionData.nameExpt
   const abbrExpt_sess = SessionData.abbrExpt
+  const failsafe = JSON.parse(sessionStorage.getItem("profileData")).deleteThis2
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -225,6 +226,9 @@
     trial_duration:500,
     on_load: function() {
       console.log("Experiment (HiLex) - finished");
+      // set cookie for exp completion
+      setCookie("cook_failsafe", failsafe);
+      ///////////////////////////////////
       data_HiLex_full = jsPsych.data.get().json();
       data_HiLex_full = JSON.parse(data_HiLex_full).slice(3,3+5+90);
       for(var i=0; i<data_HiLex_full.length; i++) {
@@ -332,11 +336,11 @@
     type: "html-button-response",
     stimulus: function showEnd() {
       cAcc=corrAcc;  hScr = HLXscore;  hR = hitRate;  fA = flsAlrm;
-      string_to_show = '<h3 id="HideIfFlag">HiLex score (corrected acc.): <strong style="color:blue;">'+corrAcc+' %</strong></h3>'+
-        '<h3 id="HideIfFlag">Average time for response: <strong style="color:blue;">'+avgRT_All+' ms.</strong></h3>'+
-        '<p style="text-align: justify; width: 700px; margin:auto;"><br><strong>भाग लेने के लिए धन्यवाद।</strong> आपका समापन कोड <a style="color:blue; font-weight:bold;">'+pid_show+'#'+failsafe+'</a> है। कृपया इसे नोट कर लें या इसका स्क्रीनशॉट लें। यदि पूछा जाए तो इसे प्रयोगकर्ता को प्रदान करें।<br>हम आपके ईमेल पर विस्तृत परिणाम भेजेंगे। आप निश्चिंत रहें कि हम आपको अतिरिक्त ईमेल नहीं भेजेंगे या अनावश्यक संदेशों से स्पैम नहीं करेंगे।'+
+      string_to_show = '<h3 id="HideIfFlag1">HiLex score (corrected acc.): <strong style="color:blue;">'+corrAcc+' %</strong></h3>'+
+        '<h3 id="HideIfFlag2">Average time for response: <strong style="color:blue;">'+avgRT_All+' ms.</strong></h3>'+
+        '<p style="text-align: justify; width: 700px; margin:auto;"><br><strong>भाग लेने के लिए धन्यवाद।</strong> आपका समापन कोड <a style="color:blue; font-weight:bold;">'+pid_show+failsafe+'</a> है। कृपया इसे नोट कर लें या इसका स्क्रीनशॉट लें। यदि पूछा जाए तो इसे प्रयोगकर्ता को प्रदान करें।<br>हम आपके ईमेल पर विस्तृत परिणाम भेजेंगे। आप निश्चिंत रहें कि हम आपको अतिरिक्त ईमेल नहीं भेजेंगे या अनावश्यक संदेशों से स्पैम नहीं करेंगे।'+
         '<br><br>'+
-        '<strong>Thanks for participating.</strong> Your completion code is <a style="color:blue; font-weight:bold;">'+pid_show+'#'+failsafe+'</a>. Please note it down or screenshot it. If asked, provide this to experimenter.<br>We will send the detailed results to your email address. Rest assured that we will not send additional emails or spam you with unwanted messages.<br><br></p>'+
+        '<strong>Thanks for participating.</strong> Your completion code is <a style="color:blue; font-weight:bold;">'+pid_show+failsafe+'</a>. Please note it down or screenshot it. If asked, provide this to experimenter.<br>We will send the detailed results to your email address. Rest assured that we will not send additional emails or spam you with unwanted messages.<br><br></p>'+
         '<p><strong>ईमेल - Email </strong>: <input id="email2" name="Email_ID" value="'+emailID_sess+'" type="email"></p>'+
         '<br><br><a style="color:red; font-weight:bold;">PLEASE DO NOT CLOSE THIS BROWSER TAB, AS DOING SO MIGHT RESULT IN LOSS OF YOUR DATA.</a><br><br>'+
         '<div id="hideAfterEmail">Please wait, do not close or refresh<br><img src="images/loading.gif" style="height: auto;" width="75"></div>';
@@ -349,10 +353,12 @@
     on_load: function(){
       var file_name = getPrefix()+pid;
 
+      if(optid_sess[1]=='n') { $("#HideIfFlag1").css("display", "None"); $("#HideIfFlag2").css("display", "None"); }
+
       //https://stackoverflow.com/questions/3706855/send-email-with-a-template-using-php //send_email_experimenter()
       document.getElementById('saveit').style.display = 'none';
       
-      $.post("scripts_jscssphp/sendmail1_expt.php", {expName: nameExpt_sess, expID: eid_sess, pID: pid_sess, abbrExpt: abbrExpt_sess, timestamp: Date().toString(), pIDcheck: pid_show+'#'+failsafe, HLXscore: roundTo(corrAcc,2), Ghentscore: hScr, hitRate: roundTo(hitRate,2), falseAlarm: roundTo(flsAlrm,2), RTavg: roundTo(avgRT_All,3), RTavgWords: roundTo(avgRT_W,3), RTavgNWords: roundTo(avgRT_N,3), sendTo: emailIDexpt_sess }, function() {
+      $.post("scripts_jscssphp/sendmail1_expt.php", {expName: nameExpt_sess, expID: eid_sess, pID: pid_sess, abbrExpt: abbrExpt_sess, timestamp: Date().toString(), pIDcheck: failsafe, HLXscore: roundTo(corrAcc,2), Ghentscore: hScr, hitRate: roundTo(hitRate,2), falseAlarm: roundTo(flsAlrm,2), RTavg: roundTo(avgRT_All,3), RTavgWords: roundTo(avgRT_W,3), RTavgNWords: roundTo(avgRT_N,3), sendTo: emailIDexpt_sess }, function() {
             //hide loading animation and show save score button
             document.getElementById('hideAfterEmail').style.display = 'none';
             document.getElementById('saveit').style.display = '';
@@ -374,7 +380,7 @@
       console.log("Participant entered ",part_email)
       //data.responses = JSON.parse(data.responses);
       //console.log("Niket",data.responses.Email_ID)
-      var postData = [{timestamp: getPrefix(), expID: eid_sess, expName: nameExpt_sess, abbrExpt: abbrExpt_sess, emailExpt: emailIDexpt_sess, pID: pid_sess, pIDFailsafe: '#'+failsafe, emailID1: emailID_sess, emailID2: part_email, optID: optid_sess, HLXscore: corrAcc, Ghentscore: hScr, rawAcc: score_rawAcc, hitRate: hitRate, falseAlarm: flsAlrm, Wcorr: Wcorr, Ncorr: Ncorr, RTavg: avgRT_All, RTavgWords: avgRT_W, RTavgNWords: avgRT_N}];
+      var postData = [{timestamp: getPrefix(), expID: eid_sess, expName: nameExpt_sess, abbrExpt: abbrExpt_sess, emailExpt: emailIDexpt_sess, pID: pid_sess, pIDFailsafe: failsafe, emailID1: emailID_sess, emailID2: part_email, optID: optid_sess, HLXscore: corrAcc, Ghentscore: hScr, rawAcc: score_rawAcc, hitRate: hitRate, falseAlarm: flsAlrm, Wcorr: Wcorr, Ncorr: Ncorr, RTavg: avgRT_All, RTavgWords: avgRT_W, RTavgNWords: avgRT_N}];
       console.log(postData)     
       sessionStorage.setItem("emailData", JSON.stringify(postData));
       console.log('sessionStorage SET') //backup
@@ -389,7 +395,7 @@
       console.log("[LOG] - Done, saving email data now..... OVER");
 
       if(validateEmail(part_email)) {
-        $.post("scripts_jscssphp/sendmail2_part.php", {expName: nameExpt_sess, expID: eid_sess, pID: pid_sess, abbrExpt: abbrExpt_sess, timestamp: Date().toString(), pIDcheck: '#'+failsafe, HLXscore: roundTo(corrAcc,2), RTavg: roundTo(avgRT_All,3), RTavgWords: roundTo(avgRT_W,3), RTavgNWords: roundTo(avgRT_N,3), sendTo: part_email }, function() {
+        $.post("scripts_jscssphp/sendmail2_part.php", {expName: nameExpt_sess, expID: eid_sess, pID: pid_sess, abbrExpt: abbrExpt_sess, timestamp: Date().toString(), pIDcheck:failsafe, HLXscore: roundTo(corrAcc,2), RTavg: roundTo(avgRT_All,3), RTavgWords: roundTo(avgRT_W,3), RTavgNWords: roundTo(avgRT_N,3), sendTo: part_email }, function() {
             console.log("Email sent to participant")
           });
       }
@@ -434,6 +440,11 @@
     repetitions:1
   }
 
+  timeL = [instructions, fullscreen_trial, cursor_off, exp_trial, cursor_on, fullscreen_trial_exit, calcScores, end_screen]
+
+  var tmp_cook = document.cookie.replaceAll("; ",";").replaceAll("%23","#");
+  cookies_json = str_obj(tmp_cook);
+
   if(pid_sess==pid_url && eid_sess==eid_url && ['mob','tab','web'].includes(device_type)) {
     console.log("OKAY")
     var timeL = [instructions, fullscreen_trial, cursor_off, exp_trial, cursor_on, fullscreen_trial_exit, calcScores, end_screen]
@@ -443,12 +454,17 @@
     var timeL = [error_screen]
   }
 
-  corrAcc = '45.34';
-  HLXscore = '123';
-  hitRate = 0.02;
-  flsAlrm = 1.11;
+  if(cookies_json['cook_failsafe'] == failsafe) {
+    console.log('Already participated');
+    var timeL = [error_screen] 
+  }
+
+  //corrAcc = '45.34';
+  //HLXscore = '123';
+  //hitRate = 0.02;
+  //flsAlrm = 1.11;
   //timeL = [exp_trial, calcScores, end_screen]
-  timeL = [instructions, fullscreen_trial, cursor_off, exp_trial, cursor_on, fullscreen_trial_exit, calcScores, end_screen]
+  
   //window.open("https://www.w3schools.com","_self");
   
   jsPsych.init({

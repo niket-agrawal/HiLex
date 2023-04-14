@@ -21,6 +21,28 @@
 		<link rel="manifest" href="images/fav/site.webmanifest">
 	</head>
 
+	<script type="text/javascript">
+		function toggleLanguage() {
+    curr_lang = document.getElementById("just_flag").innerHTML;
+    if (curr_lang=='E') {
+    	just_flag.innerHTML = 'H'
+    	i0.innerHTML = "Change this to English"
+    	i01.innerHTML = "HiLex हिंदी शब्दों की कुशलता के परिक्षण के लिए एक संक्षिप्त शब्द है। यह उन शोधकर्ताओं के लिए डिज़ाइन किया गया है जो एक जो प्रयोगशाला में प्रतिभागियों के साथ उनकी को हिंदी का अध्ययन (मूल या दूसरी भाषा के रूप में) करना चाहते हैं। यह एक दृश्यात्मक शाब्दिक निर्णय कार्य का उपयोग करता है जो समय सीमित नहीं है और एक व्यक्ति के हिंदी शब्दावली का अनुमान लगाने के लिए होता है। टेस्ट लेने से प्रतिभागी सिर्फ पांच मिनट में अपनी हिंदी शब्दावली का अनुमान लगा सकते हैं।"
+    	i02.innerHTML = "यह टेस्ट जल्दी से हो जाता है, आसान है और मुफ्त भी है।"
+    	i03.innerHTML = "<strong>परीक्षण प्रारंभ करें</strong>"
+    	i04.innerHTML = "<strong>मैं एक प्रयोगकर्ता हूं</strong>"
+    }
+    else {
+      just_flag.innerHTML = 'E'
+      i0.innerHTML = "इसे हिंदी में बदलें"
+      i01.innerHTML = "HiLex is an acronym for the 'Hindi Lexical Proficiency Test'. It's a tool designed for cognitive researchers who want to study participants with Hindi as either their native or non-native language in an experimental setting. It uses a visual lexical decision task that's not timed to estimate an individual's Hindi vocabulary. By taking the test, participants can obtain an estimate of their Hindi vocabulary in just 5 minutes."
+     i02.innerHTML = "It is quick, easy to administer, and free."
+     i03.innerHTML = "<strong>Start the test</strong>"
+     i04.innerHTML = "<strong>I'm an experimenter</strong>"
+    }
+  };
+	</script>
+
 	<body>
 		<!-- Navigation-->
 		<div id="my_nav"></div>
@@ -30,7 +52,8 @@
 
 		<header class="page-header header" style="background-image: url('images/backg4.jpg'); padding-left:0px;">
 
-			<center> <a class="btn btn-secondary btn-sm mt-2" onclick="toggleLanguage()" role="button">इसे हिंदी में बदलें</a> </center>
+			<center> <a class="btn btn-secondary btn-sm mt-2" onclick="toggleLanguage()" role="button" id="i0">इसे हिंदी में बदलें</a> </center>
+			<p id="just_flag" style="display: none;">E</p>
 			
 			<div class="f_page pb-5 pt-2">
 				<div class="col-md-8 offset-md-2" style="color: white">
@@ -38,13 +61,13 @@
 					<div style="backdrop-filter: blur(5px);">
 						<div class="py-5 px-5">
 							<h2 class="display-4">HiLex !</h2>
-							<p class="lead">HiLex stands for lexical proficiency test for Hindi. It is intended for cognitive researchers studying participants with Hindi (as native or non-native language) in an experimental setting. It consists of a simple un-speeded visual lexical decision task. This test will give you get an estimate of your Hindi vocabulary within 5 minutes.</p>
+							<p class="lead" id="i01">HiLex is an acronym for the 'Hindi Lexical Proficiency Test'. It's a tool designed for cognitive researchers who want to study participants with Hindi as either their native or non-native language in an experimental setting. It uses a visual lexical decision task that's not timed to estimate an individual's Hindi vocabulary. By taking the test, participants can obtain an estimate of their Hindi vocabulary in just 5 minutes.</p>
 							<hr style="background-color:white">
-							<p>It is quick, easy to administer, and free.</p>
+							<p id="i02">It is quick, easy to administer, and free.</p>
 							
-							<a class="btn btn-warning btn-md" href="start.html" role="button"><strong>Start the test</strong></a>
+							<a class="btn btn-warning btn-md" href="start.html?expID=HoMhFht&options=fycn&pid=" role="button" id="i03"><strong>Start the test</strong></a>
 							&nbsp;&nbsp;&nbsp;
-							<a class="btn btn-warning btn-md" href="experimenter.html" role="button">I'm an experimenter</a>
+							<a class="btn btn-warning btn-md" href="experimenter.html" role="button" id="i04"><strong>I'm an experimenter</strong></a>
 						</div>
 					</div>
 				</div>
@@ -55,7 +78,7 @@
 				<div class="container px-0 pt-0 pb-5">
 					<div class="row">
 			 			<!--ADD CLASSES HERE d-flex align-items-stretch-->
-						<div class="col-lg-3 col-md-6 col-sm-6 mb-3 d-flex align-items-stretch">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-6 mb-3 d-flex align-items-stretch">
 							<div class="card">
 								<div class="imgdiv"><img src="images/i1.png" class="card-img-top" alt="..."></div>
 								<div class="card-body d-flex flex-column">
@@ -65,7 +88,7 @@
 							</div>
 						</div>
 						<!--ADD CLASSES HERE d-flex align-items-stretch-->
-						<div class="col-lg-3 col-md-6 col-sm-6 mb-3 d-flex align-items-stretch">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-6 mb-3 d-flex align-items-stretch">
 							<div class="card">
 								<div class="imgdiv"><img src="images/i2.png" class="card-img-top" alt="..."></div>
 								<div class="card-body d-flex flex-column">
@@ -75,7 +98,7 @@
 							</div>
 						</div>
 						<!--ADD CLASSES HERE d-flex align-items-stretch-->
-						<div class="col-lg-3 col-md-6 col-sm-6 mb-3 d-flex align-items-stretch">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-6 mb-3 d-flex align-items-stretch">
 							<div class="card">
 								<div class="imgdiv"><img src="images/i3.png" class="card-img-top" alt="..."></div>
 								<div class="card-body d-flex flex-column">
@@ -85,12 +108,12 @@
 							</div>
 						</div>
 						<!--ADD CLASSES HERE d-flex align-items-stretch-->
-						<div class="col-lg-3 col-md-6 col-sm-6 mb-3 d-flex align-items-stretch">
+						<div class="col-lg-3 col-md-6 col-sm-6 col-6 mb-3 d-flex align-items-stretch">
 							<div class="card">
 								<div class="imgdiv"><img src="images/i4.png" class="card-img-top" alt="..."></div>
 								<div class="card-body d-flex flex-column">
 									<h4 class="card-title">How to score ?</h4>
-									<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+									<p class="card-text">Coming soon ....</p>
 								</div>
 							</div>
 						</div>
@@ -104,12 +127,15 @@
 	<div id="my_foot"></div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-	<script type="text/javascript">
-		window.onload=()=>{
-			$("#linkHome")[0].href = "#";
-			$("#linkHome").parent().addClass('active');
-		}
-	</script>
-
 </body>
+<script type="text/javascript" defer>
+		// $(document).ready(() => {
+		// 	$("#linkHome").parent().addClass('active');
+		// 	$("#linkHome")[0].href = "#";
+		// });
+		window.onload = function() {
+			$("#linkHome").parent().addClass('active');
+			$("#linkHome")[0].href = "#";
+		}
+</script>
 </html>

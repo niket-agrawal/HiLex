@@ -36,8 +36,16 @@
 	
 	///////////////////////////////////////////////////////////////////////////////////////////
 	if(count($match_lbq) > 1) {
-		//echo nl2br ("\n[LOG] Error in LBQ (match_lbq > 1) - please email us with this error and your experiment details\n"); //echo "ISSUE"; choosing first element
-		fputcsv($fp, "[LOG] Error in LBQ (match_lbq > 1) - please email us with this error and your experiment details"); //echo "ISSUE"; choosing first element
+		$match_lbq = array_filter($match_lbq, function($d) use ($compCode) { return $d['deleteThis2'] == "#".$compCode; });
+		if(!empty($compCode) and !empty($match_lbq)) {
+			$firstKey = array_keys($match_lbq)[0];
+			$match_lbq = $match_lbq[$firstKey];
+		}
+		else {
+			//echo nl2br ("\n[LOG] Error in LBQ (match_lbq > 1) - please email us with this error and your experiment details\n"); //echo "ISSUE"; choosing first element
+			fputcsv($fp, "[LOG] Error in LBQ (match_lbq > 1) - please email us with this error and your experiment details"); //echo "ISSUE"; choosing first element
+			$match_analysed = "";
+		}
 	}
 	elseif (count($match_lbq) == 1) {
 	 	$firstKey = array_keys($match_lbq)[0];
@@ -74,7 +82,7 @@
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 	if(count($match_hlx) > 1) {
-		$match_hlx = array_filter($match_hlx, function($d) use ($compCode) { return $d['completionCode'] == $compCode; });
+		$match_hlx = array_filter($match_hlx, function($d) use ($compCode) { return $d['completionCode'] == "#".$compCode; });
 		if(!empty($compCode) and !empty($match_hlx)) {
 			$firstKey = array_keys($match_hlx)[0];
 			$match_hlx = $match_hlx[$firstKey]['rawData'];
@@ -99,15 +107,15 @@
 	
 
 	// Write header row
-	$header_lbq = array("timestamp","Q01_PartID","Q02_age","Q03_gender","Q04_place","Q05_education","Q06_nativeLang","Q07_otherLang","Q08_rateHi","Q09_rateSpeak","Q10_rateUnd","Q11_rateRead","Q12_rateWrite","Q13_ageAcq","Q14_experienceHi","Q15_formalEduHi","Q16_hiInstruction","Q17_hrsPerDay","Q18_yrsLivedHi","Q19_consent");
-	$header_device = array("_resTotal","_resAvail","_colDepth","_orient","_deviceLang","_isTouch","_isTablet");
-	$header_analysed = array("timestamp","completionCode","HilexScore","GhentScore","rawAcc","hitRate","falseAlarm","Wcorr","NWcorr","RTavg","RTavgWords","RTavgNWords");
-	$header_hlx = array('stimItem', 'itemType', 'dummyItem', 'corrResp', 'givenResp', 'acc', 'rt');
+	$header_lbq = array("TIMESTAMP_LANG_QUES","PART-ID","AGE","GENDER","PLACE","EDUCATION","FIRST-NATIVE_LANG","OTHER_LANGS","RATE-HI","RATE-HI_SPEAK","RATE-HI_UNDSTD","RATE-HI_READ","RATE-HI_WRITE","AGE-OF-ACQ","EXPERIENCE_HI","FORMAL-EDU_HI","LANG-OF-INSTRUCT_HI","HRS-PER-DAY_HI","YRS-LIVED_HI-REGION","CONSENT");
+	$header_device = array("SCREEN-RESOLUTION-TOTAL","SCREEN-RESOLUTION-AVAILAIBLE","COLOR-DEPTH","SCREEN-ORIENTATION","DEVICE-LANGUAGE","isTouch","isTablet");
+	$header_analysed = array("TIMESTAMP_HILEX","COMPLETION-CODE","HILEX-SCORE","GHENT-SCORE","RAW_ACCURACY","HIT-RATE","FALSE-ALARMS","WORD-CORRECT","NONWORD-CORRECT","RT_AVERAGE","RT_AVG-WORDS","RT_AVG-NONWORDS");
+	$header_hlx = array('STIMULUS', 'ITEM-TYPE', 'PRACTICE-DUMMY', 'CORRECT-RESPONSE', 'GIVEN-RESPONSE', 'ACCURACY', 'RT');
 
 	// provided, match_lbq, hlx, analysed is correct (only 1 csv each)
-	if(count($match_lbq) == 29) {
+	if(count($match_lbq) == 30) {
 		$keyslbq = array_slice(array_keys($match_lbq),0,20);
-		$keysdevice = array_slice(array_keys($match_lbq),21,7);
+		$keysdevice = array_slice(array_keys($match_lbq),22,7);
 
 		$valueslbq = array_values(array_intersect_key($match_lbq, array_flip($keyslbq)));
 		$valuesdevice = array_values(array_intersect_key($match_lbq, array_flip($keysdevice)));
@@ -117,14 +125,20 @@
 		//echo json_encode ($keysdevice);
 		fputcsv($fp, $header_lbq);
 		fputcsv($fp, $valueslbq);
+		fputcsv($fp, [""]);
+		
 		fputcsv($fp, $header_device);
 		fputcsv($fp, $valuesdevice);		
+		fputcsv($fp, [""]);
 	} else {
 		//echo "Error";
 		fputcsv($fp, $header_lbq);
 		fputcsv($fp, ["Error"]);
+		fputcsv($fp, [""]);
+		
 		fputcsv($fp, $header_device);
 		fputcsv($fp, ["Error"]);
+		fputcsv($fp, [""]);
 	}
 
 	if(count($match_analysed) == 20) {
@@ -140,10 +154,12 @@
 		//echo json_encode ($valuesanalysed); //timestamp pIDFailsafe
 		fputcsv($fp, $header_analysed);
 		fputcsv($fp, $valuesanalysed);
+		fputcsv($fp, [""]);
 	} else {
 		//echo "Error";
 		fputcsv($fp, $header_analysed);
 		fputcsv($fp, ["Error"]);
+		fputcsv($fp, [""]);
 	}
 
 	if(count($match_hlx) == 95) {

@@ -8,6 +8,7 @@
         <!-- css -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="scripts_jscssphp/main.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
         <!-- js -->
         <!--<script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script-->
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
@@ -27,6 +28,15 @@
 		<style type="text/css">
 			label { font-weight: bold; font-size: 15px;} 
 			.ticks { display: flex; width: 79%;}
+			@media print { 
+				/* All your print styles go here */
+				#deletBtn { display: none !important; }
+				#sidebar { display: none !important; }
+				#my_foot { display: none !important; }
+				.col-lg-8 { max-width: 100%; flex: 100%; }
+				.col-md-6 { max-width: 100%; flex: 100%; }
+				.col-sm-12 { max-width: 100%; flex: 100%; }
+			}
 		</style>
 	</head>
 
@@ -42,61 +52,103 @@
 			
 			<div class="col-lg-8 col-md-6 col-sm-12">
 			
-			<h3 class="bld">Welcome experimenter</h3>
-			<p id="line1">Some details are required to customize the portal to suit your experiment. Please fill in details.</p>
-			<hr>
+			<div id="line1">
+				<h3 class="bld">Welcome experimenter</h3>
+				<p>Some details are required to customize the portal to suit your experiment. Please fill in details.</p>
+				<hr>
+			</div>
+			
+
+			<div id="hideAfterEmail" style="padding: 25px;">
+				<br>Please wait, we are registering your experiment, do not close or refresh<br><br><br><br>
+				<img src="images/loading.gif" style="height: auto; display: block; margin: auto;" width="75">
+			</div>
+
+
 
 			<div id="line2">
 
-			<p>We've sent you an email with necessary details. You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments.You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments.You will be responsible for managing the datasets colleted from this portal for your experiments.You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments.</p>
+			<h4 style="font-weight: bold;">Thank you for using HiLex !!!</h4><br>
+			<p>A roster (participant list) for your experiment should be downloaded already. If not, you can check your email or contact us for roster (participant list). Please keep these details safe. Use each participant ID from the list only once to avoid any errors.</p>
+			<p><hr>
+			<strong>Unique expriment ID:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue;" id="expID">abcd4321</span><hr>
+			<strong>Experiment @ abbrv.:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue;" id="expName_Abbr">Lorem Ipsum Dol @ ABC</span><hr>
+			<strong>Experiment's expiry:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue;"  id="expire" data-toggle="tooltip" data-placement="right" title="We don't maintain data for longer durations on our servers due to privacy concerns.">______________</span> (one year from the date of creation)<hr>
+			<strong>Experimenter's name:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue;" id="experimenter">Firstname Lastname</span><hr>
+			<strong>Experimenter's mail:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue;" id="expEmail">abc@pqr.com</span><hr>
+			<strong>URL for HiLex study:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue;" id="expURL">https://www.cgs.iitk.ac.in/wwwrw/niketag0/hilexRelease/start.html?expID=aBc21de&options=fncn&pid={{PARTICIPANT-ID}}</span><br>
+			<span style="color: red; font-family: monospace;"><strong>Important note: </strong>Replace PARTICIPANT-ID in URL with ID from roster sent to you. For example, if participant-ID in roster is <strong>QWERTY</strong>, then your URL would be- </span><span id="expEmailExample">https://www.cgs.iitk.ac.in/wwwrw/niketag0/hilexRelease/start.html?expID=aBc21de&options=fncn&pid=QWERTY</span><hr>
+			
+			<strong>URL for data request:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue;" id="dataURL">https://www.cgs.iitk.ac.in/wwwrw/niketag0/hilexRelease/request-data.html?expID=aBc21de</span><br>
+			<span style="color: red; font-family: monospace;"><strong>Important note: </strong>This link is intended for the experimenter's use only, and should NOT be shared with participants or anyone else.</span><hr>
 
-			<h4>Heading 2</h4>
+			</p>
 
-			<p>You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments.You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments.You will be responsible for managing the datasets colleted from this portal for your experiments. You will be responsible for managing the datasets colleted from this portal for your experiments.You will be responsible for managing the datasets colleted from this portal for your experiments.You will be responsible for managing the datasets colleted from this portal for your experiments.</p>
+			<h4 style="font-weight: bold;">Terms and conditions -</h4>
+			<p><ol style="list-style-type:lower-alpha">
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Use datasets collected from this portal wisely and respect participant confidentiality.</li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data collected SHOULD NOT be shared with any third-party organizations.</li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prior ethical approval SHOULD be taken from your institution.</li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data collection process SHOULD adhere to relevant laws and regulations, such as <a target="_blank" href="https://gdpr-info.eu/">GDPR</a> or <a target="_blank" href="https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html">HIPAA</a>.</li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clear contact information SHOULD be provided to participants who have any questions/ concerns.</li>
+				<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feel free to contact: <a href="mailto:niket_cct@yahoo.com">niket_cct@yahoo.com</a>, in case of any issues or queries.</li>
+			</ol></p>
+			<br>
+			<br>
 
+			<div class="row justify-content-center">
+				<div class="col-sm-4">
+					<button class="btn btn-secondary btn-block" id="deletBtn" onclick="print();">Print/ Save as PDF</button>
+				</div>
+			</div>
+
+			
+			
+			<br>
+			<br>
 			</div>
 				
 			<form id="form2" role="form" class="form-horizontal">
 
 				<div class="form-group row" id="pid_head">
-				<label class="col-sm-4 control-label text-left" id='i00'>Your name</label>
+				<label class="col-sm-4 control-label text-left" >Your full-name</label>
 				<div class="col-sm-7">
 					<input type="text" maxlength="100" class="form-control" placeholder="Firstname Lastname" name="exp1_name" id="pid_auto" required="">
 				</div>
 				</div>
 
 				<div class="form-group row" id="pid_head">
-				<label class="col-sm-4 control-label text-left" id='i00'>Title of research study/ experiment</label>
+				<label class="col-sm-4 control-label text-left" >Title of research study/ experiment</label>
 				<div class="col-sm-7">
 					<input type="text" maxlength="500" class="form-control" placeholder="e.g., Language and Modality Control in Bilingualism (LMCB)" name="exp2_title" id="pid_auto" required="">
 				</div>
 				</div>
 
 				<div class="form-group row" id="pid_head">
-				<label class="col-sm-4 control-label text-left" id='i00'>Abbreviation (max. 5 characters)</label>
+				<label class="col-sm-4 control-label text-left" data-toggle="tooltip" data-placement="right" title="Abbreviation of your experiment, e.g. VWR for Visual Word Recognition">Abbreviation (max. 5 characters) &nbsp; <i class="bi bi-info-circle"></i></label>
 				<div class="col-sm-3">
-					<input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" placeholder="LMCB" name="exp3_abbr" id="pid_auto" required="" data-mdb-showcounter="true" maxlength="5">
+					<input type="text" oninput="this.value = this.value.toUpperCase()" class="form-control" placeholder="LMCB" name="exp3_abbr" id="pid_auto" required="" data-mdb-showcounter="true" maxlength="5" >
 				</div>
 				<div class="form-helper"></div>
 				</div>
 
 
 				<div class="form-group row" id="pid_head">
-				<label class="col-sm-4 control-label text-left" id='i00'>Your affiliation</label>
+				<label class="col-sm-4 control-label text-left">Your affiliation</label>
 				<div class="col-sm-7">
-					<input type="text" maxlength="300" class="form-control" placeholder="Department of PQR, Alpha University" name="exp4_uni" id="pid_auto" required="">
+					<input type="text" maxlength="300" class="form-control" placeholder="School of Psychology, University of Alpha" name="exp4_uni" id="pid_auto" required="">
 				</div>
 				</div>
 
 				<div class="form-group row" id="pid_head">
-				<label class="col-sm-4 control-label text-left" id='i00'>Your email ID</label>
+				<label class="col-sm-4 control-label text-left" >Your email ID</label>
 				<div class="col-sm-7">
 					<input type="email" maxlength="100" class="form-control" placeholder="abc@pqr.com" name="exp5_email" id="pid_auto" required="">
 				</div>
 				</div>
 
 				<div class="form-group row" id="pid_head">
-				<label class="col-sm-4 control-label text-left" id='i00'>Number of participants</label>
+				<label class="col-sm-4 control-label text-left" data-toggle="tooltip" data-placement="right" title="Number of subjects you expect to collect data for, minimum:1 and maximum:9999">Number of participants &nbsp; <i class="bi bi-info-circle"></i> </label>
 				<div class="col-sm-3">
 					<input value=50 min=1 max=9999 type="number" name="exp6_nSubjects" id="typeNumber" class="form-control form-icon-trailing" />
 					<i class="fas fa-dollar-sign trailing"></i>
@@ -104,33 +156,33 @@
 				</div>
 
 				<div class="form-group row">
-					<label class="col-sm-4 control-label" id='i3'>Select type of language related questions</label>
+					<label class="col-sm-4 control-label">Select type of language related questions</label>
 					<div class="col-sm-7">
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e7_def" value="full" name="exp7_lbq" checked required>
-						  <label class="form-check-label" id='i31' for="e7_def" data-toggle="tooltip" data-placement="right" title="This option will show full language background questionnaire (18 questions) before starting HiLex">Full (default, all 18 questions)</label>
+						  <label class="form-check-label" id='i31' for="e7_def" data-toggle="tooltip" data-placement="right" title="This option will show full language background questionnaire (18 questions) before starting HiLex">Full (default, all 18 questions) &nbsp; <i class="bi bi-info-circle"></i></label>
 						</div> <br>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e7_min" value="min" name="exp7_lbq" required>
-						  <label class="form-check-label" id='i32' for="e7_min" data-toggle="tooltip" data-placement="right" title="This option will ask minimal questions (only 6) before starting HiLex">Minimal (basic demographics; 6 questions)</label>
+						  <label class="form-check-label" id='i32' for="e7_min" data-toggle="tooltip" data-placement="right" title="This option will ask minimal questions (only 6) before starting HiLex">Minimal (basic demographics; 6 questions) &nbsp; <i class="bi bi-info-circle"></i></label>
 						</div> <br>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e7_no" value="no" name="exp7_lbq" required>
-						  <label class="form-check-label" id='i33' for="e7_no" data-toggle="tooltip" data-placement="right" title="This option will directly start HiLex, select this option if your participants are filling language history questions seperately">No demographic questions, just HiLex (not recommended)</label>
+						  <label class="form-check-label" id='i33' for="e7_no" data-toggle="tooltip" data-placement="right" title="This option will directly start HiLex, select this option if your participants are filling language history questions seperately">No demographic questions, just HiLex (not recommended) &nbsp; <i class="bi bi-info-circle"></i></label>
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group row">
-					<label class="col-sm-4 control-label" id='i3'>Scores displayed on last screen to participants</label>
+					<label class="col-sm-4 control-label">Scores displayed on last screen to participants</label>
 					<div class="col-sm-7">
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e8_y" value="y" name="exp8_showScore" checked required>
-						  <label class="form-check-label" id='i31' for="e8_y" data-toggle="tooltip" data-placement="right" title="Participants will get to know their scores after finishing the test">Yes</label>
+						  <label class="form-check-label" id='i31' for="e8_y" data-toggle="tooltip" data-placement="right" title="Last trial will display participants score">Yes</label>
 						</div>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e8_n" value="n" name="exp8_showScore" required>
-						  <label class="form-check-label" id='i32' for="e8_n" data-toggle="tooltip" data-placement="right" title="Showing scores will be disabled after the participant finishes the test">No</label>
+						  <label class="form-check-label" id='i32' for="e8_n" data-toggle="tooltip" data-placement="right" title="Showing scores will be disabled after participant finishes the test">No</label>
 						</div>
 					</div>
 				</div>
@@ -150,39 +202,39 @@
 				</div>-->
 
 				<div class="form-group row">
-					<label class="col-sm-4 control-label" id='i3'>Select ID type that fits your need</label>
+					<label class="col-sm-4 control-label">Select participation ID type that fits your need</label>
 					<div class="col-sm-7">
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e10_rand" value="random" name="exp10_partID" checked required>
-						  <label class="form-check-label" for="e10_rand" data-toggle="tooltip" data-placement="right" title="write here">Random ID (default)</label>
+						  <label class="form-check-label" for="e10_rand" data-toggle="tooltip" data-placement="right" title="A random string will be generated for participant identification">Random ID (default) &nbsp; <i class="bi bi-info-circle"></i></label>
 						</div> <br>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e10_seq" value="sequal" name="exp10_partID" required>
-						  <label class="form-check-label" for="e10_seq" data-toggle="tooltip" data-placement="right" title="write here">Sequential ID</label>
+						  <label class="form-check-label" for="e10_seq" data-toggle="tooltip" data-placement="right" title="Participation IDs will be in a sequence">Sequential ID <i class="bi bi-info-circle"> &nbsp; </i></label>
 						</div> <br>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e10_cust" value="custom" name="exp10_partID" required>
-						  <label class="form-check-label" for="e10_cust" data-toggle="tooltip" data-placement="right" title="write here">Custom ID</label>
+						  <label class="form-check-label" for="e10_cust" data-toggle="tooltip" data-placement="right" title="Experimenters can use customized participation IDs, please avoid using names to avoid ethical conflict">Custom ID  &nbsp; <i class="bi bi-info-circle"></i></label>
 						</div> <br>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e10_prol" value="prolific" name="exp10_partID" required>
-						  <label class="form-check-label" for="e10_prol" data-toggle="tooltip" data-placement="right" title="write here">Prolific ID</label>
+						  <label class="form-check-label" for="e10_prol" data-toggle="tooltip" data-placement="right" title="using Prolific protocol">Prolific ID  &nbsp; <i class="bi bi-info-circle"></i></label>
 						</div>
 					</div>
 				</div>
 
 				<div class="form-group row">
-					<label class="col-sm-4 control-label" id='i3'>Redirect URL (after completion of test)</label>
+					<label class="col-sm-4 control-label">Redirect URL (after completion of test)</label>
 					<div class="col-sm-7">
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e11_yes" value="y" name="exp11_callback" required>
-						  <label class="form-check-label" for="e11_yes" data-toggle="tooltip" data-placement="right" title="write here">Yes</label>
+						  <label class="form-check-label" for="e11_yes" data-toggle="tooltip" data-placement="right" title="If you want your participants to be redirected to another website for some task, please put its full URL here">Yes</label>
 						  &nbsp;&nbsp;&nbsp;&nbsp;
-						  <input type="url" class="form-control" placeholder="https://pavlovia.com" name="exp11_cbURL" id="pid_auto">
+						  <input type="url" class="form-control" placeholder="https://pavlovia.com" name="exp11_cbURL" id="pid_auto" data-toggle="tooltip" data-placement="right" title="URL of next task (please use full URL including https://)">
 						</div> <br>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="radio" id="e11_no" value="n" name="exp11_callback" checked required>
-						  <label class="form-check-label" for="e11_no" data-toggle="tooltip" data-placement="right" title="write here">No</label>
+						  <label class="form-check-label" for="e11_no" data-toggle="tooltip" data-placement="right" title="If you want to close the screen after completion of HiLex">No</label>
 						</div>
 					</div>
 				</div>
@@ -195,36 +247,36 @@
 
 
 				<div class="form-group row">
-					<label class="col-sm-12 form-check-label" id="i14">I confirm that the use of the data will be in compliance with the rules set by my Research Ethics Committees of the Institutional Review Board.</label>
+					<label class="col-sm-12 form-check-label">I confirm that the use of the data will be in compliance with the rules set by my Research Ethics Committees of the Institutional Review Board.</label>
 					<div class="col-sm-7">
 					<div class="form-check form-check-inline">
 					  <input class="form-check-input" type="radio" required value="true" name="exp12_eth1" id="yesid1">
-					  <label class="form-check-label" id='i141' for="yesid1">&nbsp;&nbsp;Yes</label>
+					  <label class="form-check-label" for="yesid1">&nbsp;&nbsp;Yes</label>
 					</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-check form-check-inline">
 					  <input class="form-check-input" type="radio" checked required value="false" name="exp12_eth1" id="noid1">
-					  <label class="form-check-label" id='i142' for="noid1">&nbsp;&nbsp;No</label>
+					  <label class="form-check-label" for="noid1">&nbsp;&nbsp;No</label>
 					</div>
 					</div>
 				</div>
 
 
 				<div class="form-group row">
-					<label class="col-sm-12 form-check-label" id="i14">I understand and agree that, I will be responsible for managing the datasets colleted from this portal for my studies. (We don't maintain data for long time on our servers due to privacy concerns.)</label>
+					<label class="col-sm-12 form-check-label">I understand and agree that, I will be responsible for managing the datasets colleted from this portal for my studies. (We don't maintain data for long time on our servers due to privacy concerns.)</label>
 					<div class="col-sm-7">
 					<div class="form-check form-check-inline">
 					  <input class="form-check-input" type="radio" required value="true" name="exp12_eth2" id="yesid2">
-					  <label class="form-check-label" id='i141' for="yesid2">&nbsp;&nbsp;Yes</label>
+					  <label class="form-check-label" for="yesid2">&nbsp;&nbsp;Yes</label>
 					</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<div class="form-check form-check-inline">
 					  <input class="form-check-input" type="radio" checked required value="false" name="exp12_eth2" id="noid2">
-					  <label class="form-check-label" id='i142' for="noid2">&nbsp;&nbsp;No</label>
+					  <label class="form-check-label" for="noid2">&nbsp;&nbsp;No</label>
 					</div>
 					</div>
 				</div>
 
 				<div class="form-group row">
-					<label class="col-sm-12 form-check-label" id="i14">I agree to follow the guidelines as specified in "Li, P., Zhang, F., Yu, A., & Zhao, X. (2019). Language History Questionnaire (LHQ3): An enhanced tool for assessing multilingual experience. Bilingualism: Language and Cognition." in any publications that report data based on LHQ3.</label>
+					<label class="col-sm-12 form-check-label">I agree to follow the guidelines as specified in "Agrawal, N., & Verma, A. (2023). HiLex: A quick test to measure lexical proficiency in Hindi . ACCS 22, IIT Delhi" in any publications that report data based on LHQ3.</label>
 					<div class="col-sm-7">
 					<div class="form-check form-check-inline">
 					  <input class="form-check-input" type="radio" required value="true" name="exp12_eth3" id="yesid3">
@@ -245,23 +297,13 @@
 					<button class="btn btn-success btn-block" id="save-button" type="submit">OK</button>
 				</div></div>
 
-				<div class="row">
-					<div class="col-sm-3">
-						<a role="button" href="profile.html" class="btn btn-danger btn-block" id="clear" style="display: none;" onclick="clearCookies();">Change My Profile</a>
-					</div>
-					<div class="col-sm-1">&nbsp;&nbsp;&nbsp;</div>
-					<div class="col-sm-3">
-						<a role="button" href="hilex.html?part_id=LexT_#######" class="btn btn-success btn-block" id="start" style="display: none;">
-							Start The Test
-						</a>
-					</div>
-				</div>
+				
 
 				</form>
 			</div>
 
 
-			<div class="col-lg-4 col-md-6 col-sm-12">
+			<div class="col-lg-4 col-md-6 col-sm-12" id="sidebar">
 
 				<br>
 				<h5 class="bld">Use HiLex (online/ web-based) studies</h5>
@@ -289,6 +331,13 @@
 						<li>Visit our downloads page, see <a href="download.html">(downloads)</a> </li>
 						<li>Email us if you need any help, see <a href="contact.html">(contact us)</a></li>
 					</ul>
+
+				<br><br>
+				<!--div class="row justify-content-center">
+				<div class="col-6">
+					<a class="btn btn-warning btn-block btn-lg" href="https://coindrop.to/niket" target="_blank" role="button" style="background-color: #FFDD00; text-align: center;">&#10084;&#65039;&nbsp;&nbsp;<strong>Support Us</strong></a>
+				</div>
+				</div-->
 				
 			</div>
 
@@ -303,36 +352,11 @@
 
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 		<script type="text/javascript">
-			//$("#form2").css("display", "None");
+			$("#form2").css("display", "");
 			$("#line2").css("display", "None");
+			$("#line1").css("display", "");
+			$("#hideAfterEmail").css("display", "None");
 			make_id();
-			//removes confusion for space before key_names (issue with earlier version of code, now in archieves)
-			/*var tmp_cook = document.cookie.replaceAll("; ",";"); 
-			cookies_json = str_obj(tmp_cook);
-
-			if(cookies_json['cook_ClientProfID']){
-				console.log('Previous cookies exist, fetching pid :-)');
-				hide_forms();
-				pid = cookies_json['cook_ClientProfID'];
-				pid_show = "LexT_" + pid.split("_")[3];
-				$("#myAlert1").css("display", "None");
-				$("#myAlert2").css("display", "");	
-			}
-			else{
-				console.log('Cookies not present, making pid');
-				make_pid(); //sets pid and pid_show 
-			}
-
-			console.log(pid);
-			console.log(pid_show);
-
-			ini_link = document.getElementById("start").href;
-			final_link = ini_link.split("?")[0]+"?part_id="+pid+"&device="+device_type;
-			clear_link = document.getElementById("clear").href + "?device="+device_type;
-			document.getElementsByName('partid')[0].placeholder = pid_show;
-			document.getElementById("start").href = final_link;
-			document.getElementById("clear").href = clear_link;*/
-
 		</script>
 	</body>
 	

@@ -55,9 +55,9 @@
 			<div class="card  col-sm-12 col-lg-6">
   				<div class="card-body">
     				<h5 class="card-title">Participation code and Email address</h5>
-    				<p class="card-text">You now have the opportunity to fill in the participant's name and, if desired, one or more email addresses (i.e., the researcher's and/or the participant's) that the score will be sent to.</p>
-    				<p class="card-text">When you are ready, click the "Next" button to begin the experiment (starting with an instruction screen for the participant).</p>
-    				<p class="card-text">All your data will be anonymised with this code. Your email ID will just be used to send scores.</p>
+    				<p class="card-text">Experimenter's and Participant's ID will be autofilled. Only change the participation ID if you are asked to do so by the experimenter. All your data will be anonymised with this participant ID. Your email ID will just be used to send scores.</p>
+    				<p class="card-text">You can write your email address (optional) to get results.</p>
+    				<p class="card-text"></p>
 
 
     				<form id="start" name="start">
@@ -86,7 +86,7 @@
 
 	    			<!--a id="linkProfile" href="#abc" class="btn btn-primary" style="color: black; font-weight: bold;" onclick="triggerFunc()">Go to HiLex</a-->
 	    			<br>
-	    			<a id="linkProfile" href="#abc" class="btn btn-primary px-5" style="color: black; font-weight: bold; float: right;">Go to HiLex</a>
+	    			<a id="linkProfile" href="#abc" class="btn btn-primary px-5" style="color: black; font-weight: bold; float: right;">Next</a>
 
   				</div>
   			</div>
@@ -100,7 +100,7 @@
 
 
 </body>
-<script type="module">
+<script>
 	document.getElementById("start").addEventListener("keydown", function(event) {
 		// check if the Enter key was pressed
 		if (event.keyCode === 13) {
@@ -136,7 +136,7 @@
 		//LBQ(Full/Min/No) + ShowScore(Y/N) + Email(Y/N) + PartID(Rand/Seq/Cust/Polf) + Redirect(Y/N)
 		if(optID[2]==jsonData.typePartID[0] && pID_in_Roster && optID[2]=='r') { //Random PID condition
 			document.getElementById('pid_auto').value = jsonData.ExptAbbr + '-'+ pID; }
-		else if(optID[2]==jsonData.typePartID[0] && Number(pID)<=Number(jsonData.ExptNsub) && optID[2]=='s') { //Sequential PID condition
+		else if(optID[2]==jsonData.typePartID[0] && Number(pID)<=Number(jsonData.ExptNsub) && pID_in_Roster && optID[2]=='s') { //Sequential PID condition
 			document.getElementById('pid_auto').value = jsonData.ExptAbbr + '-'+ pID; }
 		else if(optID[2]==jsonData.typePartID[0] && optID[2]=='c' && pID=='{{enter-Part-ID-here}}' && pID!=null) { //Custom PID (if PID not supplied, as it is URL)
 			document.getElementById('i01').innerHTML = 'Participation ID *';
@@ -144,6 +144,9 @@
 			//document.getElementById('pid_auto').placeholder = jsonData.ExptAbbr + '-'+ pID; 
 			/////////// old code /////////////
 			pid_auto.value = jsonData.ExptAbbr+'-'; }
+		else if(optID[2]==jsonData.typePartID[0] && optID[2]=='c' && unlim) { // UNLIMITED
+			document.getElementById('pid_auto').value = jsonData.ExptAbbr + '-'+ unlim_pID;
+		}
 		else if(optID[2]==jsonData.typePartID[0] && optID[2]=='c' && (pID==null || pID=='')) { // (either PID variable not used, or supplied blank)
 			document.getElementById('i01').innerHTML = 'Participation ID *';
 			document.getElementById('pid_auto').removeAttribute('readonly'); 
@@ -188,13 +191,15 @@
 	}*/
 
 	function checkLBQ(jsonData, eID, optID) {
-		if(optID[0]==jsonData.ifLBQ[0] && optID[0]=='f') {
-			//$("#linkProfile")[0].href = "profile-full.html?expID="+eID+"&partID="+"Niket"; }
-			$("#linkProfile")[0].href = "profile-full.html" }
-		else if(optID[0]==jsonData.ifLBQ[0] && optID[0]=='m') {
-			$("#linkProfile")[0].href = "profile-min.html"; }
-		else if(optID[0]==jsonData.ifLBQ[0] && optID[0]=='n') {
-			$("#linkProfile")[0].href = "profile-no.html"; }
+		// if(optID[0]==jsonData.ifLBQ[0] && optID[0]=='f') {
+		// 	//$("#linkProfile")[0].href = "profile-full.html?expID="+eID+"&partID="+"Niket"; }
+		// 	$("#linkProfile")[0].href = "profile-full.html" }
+		// else if(optID[0]==jsonData.ifLBQ[0] && optID[0]=='m') {
+		// 	$("#linkProfile")[0].href = "profile-min.html"; }
+		// else if(optID[0]==jsonData.ifLBQ[0] && optID[0]=='n') {
+		// 	$("#linkProfile")[0].href = "profile-no.html"; }
+		if(optID[0]==jsonData.ifLBQ[0] && (optID[0]=='f' || optID[0]=='m' || optID[0]=='n')) {
+			$("#linkProfile")[0].href = "profile.html" }
 		else {
 			document.getElementById('err1_main').innerHTML = "Invalid Option ID"
 			document.getElementById('err2_sub').innerHTML = "You don't have access to the portal. Something is wrong in optID."
@@ -252,7 +257,11 @@
 		}
 	}
 
-	import expData from './data_experimenters/all_expts.json' assert { type: 'json' };
+	var expData = (function() { var json = null;
+		$.ajax({'async': false, 'global': false, 'cache':false, 'url': "data_experimenters/all_expts.json", 'dataType': "json",
+			'success': function(data) { json = data; } });
+	return json;})();
+	//import expData from './data_experimenters/all_expts.json' assert { type: 'json' }; (not working in safari)
 	var jsonData = expData
 	console.log(jsonData);
 
@@ -262,6 +271,24 @@
     const pID = urlParams.get('pid');
     const optID = urlParams.get('options');
     var rdrctURL = jsonData.cbURL;
+
+    var makeid = (length) => {
+    	var result           = '';
+    	var characters       = 'ABCDEFGHJKLMNOPQRSTUVWXYZ';
+    	var charactersLength = characters.length;
+    	for ( var i = 0; i < length; i++ ) {
+    		result += characters.charAt(Math.floor(Math.random() * charactersLength)); }
+    		return result; };
+
+    //UNLIMITED ACCESS TO MY PARTICIPANTS
+    var unlim = false;
+    const unlim_eID = 'HoMhFht';
+    if (eID == unlim_eID) {
+    	unlim = true;
+    	unlim_pID = '_'+makeid(7);
+    }
+
+
     
     if(eID!=null && optID!=null) {
     	$('#lineHide').css("display", "None");
@@ -269,7 +296,7 @@
     	console.log(eID, pID, optID);
     	//EXP_ID OKAY
     	jsonData = jsonData.filter(obj => obj.ExptID.includes(eID))[0];
-    	document.getElementById('eid_auto').value = jsonData.ExptName+' ('+jsonData.ExptID.slice(-7)+')';
+    	document.getElementById('eid_auto').value = jsonData.ExptName+' ('+jsonData.ExptAbbr+')';
     	//PART_ID TYPE and ID OKAY
     	checkPartID(jsonData, pID, eID, optID);
     	//EMAIL IS OKAY
@@ -288,7 +315,7 @@
     }
 
     //(expose variables from inside module to outside)
-    //window.jsonData = jsonData;
+    window.jsonData = jsonData;
 	//window.eID = eID;
 
 	//https://stackoverflow.com/questions/44590393/es6-modules-undefined-onclick-function-after-import
